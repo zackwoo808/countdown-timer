@@ -1,5 +1,8 @@
 'use strict';
 
+let timeinterval;
+let deadline = 'Feb 13 2019 22:30:00 PST';
+
 const getTimeRemaining = (endtime) => {
     let t = Date.parse(endtime) - Date.parse(new Date());
     let seconds = Math.floor((t / 1000) % 60);
@@ -16,13 +19,11 @@ const getTimeRemaining = (endtime) => {
     };
 };
 
-const initializeClock = (id, endtime) => {
-    let clock = document.getElementById(id);
+const initializeClock = (endtime) => {
     let daysSpan = document.querySelector('.days');
     let hoursSpan = document.querySelector('.hours');
     let minutesSpan = document.querySelector('.minutes');
     let secondsSpan = document.querySelector('.seconds');
-    let timeinterval;
 
     function updateClock() {
         let t = getTimeRemaining(endtime);
@@ -39,5 +40,27 @@ const initializeClock = (id, endtime) => {
     timeinterval = setInterval(updateClock, 1000);
 };
 
-let deadline = 'Feb 12 2019 22:30:00 PST';
-initializeClock('clockdiv', deadline);
+const stopClock = () => {
+    clearInterval(timeinterval);
+}
+
+const resetClock = () => {
+    deadline = new Date();
+}
+
+let startButton = document.getElementById('startButton');
+startButton.addEventListener('click', () => {
+    initializeClock(deadline);
+});
+
+let stopButton = document.getElementById('stopButton');
+stopButton.addEventListener('click', () => {
+    stopClock();
+});
+
+let resetButton = document.getElementById('resetButton');
+resetButton.addEventListener('click', () => {
+    resetClock();
+    initializeClock(deadline);
+    stopClock();
+});
