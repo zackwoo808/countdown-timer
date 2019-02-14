@@ -1,40 +1,41 @@
 <!DOCTYPE html>
-<html>
+<html lang="en"> 
     <head>
-        <title>Countdown Timer</title>
+        <title>Zack's Countdown Timer</title>
         <link rel="stylesheet" type="text/css" href="styles.css" />
+        <meta charset="utf-8"/>
     </head>
     <body>
+        <h1>Countdown Timer</h1>
         <div id="clockdiv">
             <div>
                 <span class="days"></span>
                 <div class="smalltext">Days</div>
+                <input id="numDays" type="number" value="0" min="0" />
             </div>
             <div>
                 <span class="hours"></span>
                 <div class="smalltext">Hours</div>
+                <input id="numHours" type="number" value="0" min="0" max="23" />
             </div>
             <div>
                 <span class="minutes"></span>
                 <div class="smalltext">Minutes</div>
+                <input id="numMinutes" type="number" value="0" min="0" max="59" />
             </div>
             <div>
                 <span class="seconds"></span>
                 <div class="smalltext">Seconds</div>
+                <input id="numSeconds" type="number" value="0" min="0" max="59" />
             </div>
         </div>
 
-        <div class="controls">
-            <div class="input">
-                <input id="numDays">Days</input>
-                <input id="numMinutes">Minutes</input>
-                <input id="numHours">Hours</input>
-                <input id="numSeconds">Seconds</input>
-            </div>
+        <div class="controls">   
             <div class="buttons">
                 <button id="startButton">Start</button>
-                <button id="stopButton">Stop</button>
-                <button id="resetButton">Reset</button>
+                <button id="resumeButton" style="display: none">Resume</button>
+                <button id="pauseButton" style="display: none">Pause</button>
+                <button id="resetButton" style="display: none">Reset</button>
             </div>
         </div>
 
