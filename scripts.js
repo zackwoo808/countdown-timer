@@ -7,6 +7,10 @@ let userMinutes = 0;
 let userSeconds = 0;
 let pausedTime = {};
 let oldDate;
+let state = {
+    paused: true,
+    running: false,
+}
 
 // -----------------------------
 
@@ -128,34 +132,44 @@ const resumeClock = () => {
 
 let startButton = document.getElementById('startButton');
 startButton.addEventListener('click', () => {
-    oldDate = new Date();
     resetValues();
-    const t = {
-      days: +userDays,
-      hours: +userHours,
-      minutes: +userMinutes,
-      seconds: +userSeconds,
-    }
-    updateClock(oldDate, timeinterval, t);
-    initializeClock(oldDate, t);
+    if (userDays > 0 || userHours > 0 || userMinutes > 0 || userSeconds > 0) {
+        state.running = true;
+        state.paused = false;
+        oldDate = new Date();
+        const t = {
+            days: +userDays,
+            hours: +userHours,
+            minutes: +userMinutes,
+            seconds: +userSeconds,
+        }
+        updateClock(oldDate, timeinterval, t);
+        initializeClock(oldDate, t);
     
-    document.getElementById("startButton").style.display = "none";
-    document.getElementById("resumeButton").style.display = "inline";
-    document.getElementById("resetButton").style.display = "inline";
-    document.getElementById("pauseButton").style.display = "inline";    
+        document.getElementById("startButton").style.display = "none";
+        document.getElementById("resumeButton").style.display = "inline";
+        document.getElementById("resetButton").style.display = "inline";
+        document.getElementById("pauseButton").style.display = "inline";
+    }
 });
 
 // -----------------------------
 
 let pauseButton = document.getElementById('pauseButton');
 pauseButton.addEventListener('click', () => {
-    stopClock();
+    if (state.running && !state.paused) {
+        state.running = false;
+        state.paused = true;
+        stopClock();
+    }
 });
 
 // -----------------------------
 
 let resetButton = document.getElementById('resetButton');
 resetButton.addEventListener('click', () => {
+    state.paused = true;
+    state.running = false;
     resetClock();
     stopClock();
     
@@ -169,7 +183,11 @@ resetButton.addEventListener('click', () => {
 
 let resumeButton = document.getElementById('resumeButton');
 resumeButton.addEventListener('click', () => {
-    resumeClock();
+    if (!state.running && state.paused) {
+        state.running = true;
+        state.paused = false;
+        resumeClock();
+    }
 });
 
 updateDisplay();
